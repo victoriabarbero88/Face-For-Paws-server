@@ -5,7 +5,7 @@ const feedSchema = new Schema({
   user: [{type: mongoose.Types.ObjectId, ref:"User"}],
   shelter: [{type: mongoose.Types.ObjectId, ref:"Shelter"}],
   title: {type: String},
-  userName: {type: String},
+  name: {type: String},
   photo: {type: String, default:""},
   description: {type: String},
 }, {

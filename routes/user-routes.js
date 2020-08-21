@@ -9,39 +9,194 @@ const Feed = require("../models/feed");
 
 
 
+//GET '/feed'
+router.get("/feed", (req, res, next) => {
+  Feed.find()
+    .then(allTheFeeds => {
+      res.json(allTheFeeds).status(200);
+    })
+    .catch(err => {
+      res.json(err).status(500);
+    })
+});
 
-//Create a PET
-router.post("/add-pet", (req, res, next) => {
-  Pet.create({
-    name: req.body.name,
-    photos: req.body.photo,
-    location: req.body.location,
-    size: req.body.size,
-    age: req.body.age,
-    gender: req.body.gender,
-    species: req.body.species,
-    description: req.body.description,
-    status: req.body.status
+//GET '/feed/:id'
+router.get('/feed/:id', (req, res, next) => {
+  Feed.findById(req.params.id)
+    .then(theFeed => {
+      res.json(theFeed).status(200);
+    })
+    .catch(err => {
+      res.json(err).status(500);;
+    })
+}
+)
+
+//POST '/feed/add-feed'
+router.post("/feed/add-feed", (req, res, next) => {
+  const { title, name, photo, description, isShelter } = req.body;
+  let model = isShelter ? Shelter : User;
+  const user = req.session.currentUser._id;
+  Feed.create({
+    user,
+    title,
+    name,
+    photo,
+    description,
   })
   .then(response => {
-    res.json(response);
+    model.findByIdAndUpdate(user, {$push: {feed: response}}, {new: true})
+      .then((response) => {
+        res.json(response).status(200);
+      })
   })
   .catch(err => {
-    res.json(err);
+    res.json(err).status(500);;
+  });
+});
+
+//GET '/pet' all Pets
+router.get("/pet", (req, res, next) => {
+  Pet.find()
+    .then(allThePets => {
+      res.json(allThePets).status(200);
+    })
+    .catch(err => {
+      res.json(err).status(500);
+    })
+});
+
+//GET '/pet/:id'
+router.get('/pet/:id', (req, res, next) => {
+
+  Pet.findById(req.params.id)
+    .then(thePet => {
+      res.json(thePet).status(200);
+    })
+    .catch(err => {
+      res.json(err).status(500);
+    })
+}
+)
+
+//GET '/shelter/:id'
+router.get('/shelter/:id', (req, res, next) => {
+
+  Shelter.findById(req.params.id)
+    .then(theShelter => {
+      res.json(theShelter).status(200);
+    })
+    .catch(err => {
+      res.json(err).status(500);
+    })
+  }
+)
+
+//GET '/search'
+
+//GET '/user/:id'
+router.get('/user/:id', (req, res, next) => {
+
+  User.findById(req.params.id)
+    .then(theUser => {
+      res.json(theUser).status(200);
+    })
+    .catch(err => {
+      res.json(err).status(500);
+    })
+  } 
+)
+
+//GET '/profile'
+router.get('/profile', (req, res, next) => {
+  const { isShelter } = req.body;
+  let model = isShelter ? Shelter : User;
+  const user = req.session.currentUser._id;
+  model.findById(user)
+    .then(theModel => {
+      res.json(theModel).status(200);
+    })
+    .catch(err => {
+      res.json(err).status(500);
+    })
+})
+
+
+//POST '/profile/edit/'
+router.post("/profile/edit", (req, res, next) => {
+  const { name, location, phone, website, photo, description, isShelter } = req.body;
+  let model = isShelter ? Shelter : User;
+  const user = req.session.currentUser._id;
+
+  
+  model.findByIdAndUpdate(user, {name, location, phone, website, photo, description }, {new: true})
+    .then((response) => {
+        res.json(response).status(200);
+    })
+  
+  .catch(err => {
+    res.json(err).status(500);
   });
 });
 
 
-//GET all Pets
-router.get("/pet", (req, res, next) => {
-  Pet.find().populate('pet')
-    .then(allThePets => {
-      res.json(allThePets);
-    })
-    .catch(err => {
-      res.json(err);
-    })
+
+//POST '/pet/add-pet'
+router.post("/pet/add-pet", (req, res, next) => {
+  const { name, photo, location, size, age, gender, species, status, description} = req.body;
+  const user = req.session.currentUser._id;
+  Pet.create({
+    user,
+    location,
+    name,
+    photo,
+    size, 
+    age,
+    gender, 
+    species,
+    status,
+    description,
+  })
+  .then(response => {
+    Shelter.findByIdAndUpdate(user, {$push: {pets: response}}, {new: true})
+      .then((response) => {
+        res.json(response).status(200);
+      })
+  })
+  .catch(err => {
+    res.json(err).status(500);
+  });
 });
+
+
+//POST '/pet/edit-pet/:id'
+router.post("/pet/edit-pet/:id", (req, res, next) => {
+  const { name, photo, location, size, age, gender, species, status, description}  = req.body;
+
+  Pet.findByIdAndUpdate(req.params.id, {name, location, phone, website, photo, description }, {new: true})
+    .then((response) => {
+        res.json(response).status(200);
+    })
+  
+  .catch(err => {
+    res.json(err).status(500);
+  });
+});
+
+
+//DELETE '/pet/delete/:id'
+router.delete("/pet/delete/:id", (req, res, next) => {
+
+  Pet.findByIdAndDelete(req.params.id)
+    .then((response) => {
+      res.json(response).status(200);
+    })
+
+    .catch(err => {
+    res.json(err).status(500);
+  });
+})
+
 
 
 module.exports = router;

@@ -106,6 +106,7 @@ mongoose
       newPet.age = animal.age;
       newPet.gender = animal.gender;
       newPet.species = animal.species;
+      newPet.shelterId = animal.organization_id
      
       listPets.push(newPet);
       //console.log(listPets)
@@ -136,6 +137,7 @@ mongoose
       newShelter.location = organization.address.city;
       newShelter.phone = organization.phone;
       newShelter.website = organization.website;
+      newShelter.petRelationId = organization.id;
 
       listShelters.push(newShelter);
       //console.log(listShelters);
