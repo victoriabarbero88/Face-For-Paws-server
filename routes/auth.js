@@ -25,18 +25,20 @@ router.post(
 
   async (req, res, next) => {
     //recogemos los datos del body
-    const{ name, email, password } = req.body;
+    const{ name, email, password, isShelter } = req.body;
+
+    let model = isShelter ? Shelter : User;
     
     try {
       //mira si existe email en la BD
-      const emailExists = await User.findOne({ email }, "email");
+      const emailExists = await model.findOne({ email }, "email");
       //si el email existe envia un el error 400
       if (emailExists) return next(createError(400));
       else {
         //en caso contrario si usuario no existe, haz el hash y crea nuevo user en DB
         const salt = bcrypt.genSaltSync(saltRounds);
         const hashPass = bcrypt.hashSync(password, salt);
-        const newUser = await User.create({ email, password: hashPass, name });
+        const newUser = await model.create({ name, email, password: hashPass });
         //asignamos user a currentUser y enviamos la respuesta en json
         req.session.currentUser = newUser;
         res 
@@ -64,35 +66,32 @@ router.post(
 
   async (req, res, next) => {
     //coge los datos del body
-    const { email, password } = req.body;
-    //const { email, password, isShelter } = req.body;
+    //const { email, password } = req.body;
+    const { email, password, isShelter } = req.body;
 
     
 
     //creamos la variable model para poder hablitar la opción de usar un modelo o el otro
-    //let model 
-
+    let model = isShelter ? Shelter : User;
+    //console.log(model)
     //Miramos si en el body isShelter es true y pasamos el modelo de Shelter sino pasamos el módelo de User
-    // if(isShelter) {
-    //   model = Shelter;
-    // }else{
-    //   model = User;
-    // }
 
     try {
       //comprueba si el usuario existe en la DB
-      const user = await User.findOne({ email });
+      const user = await model.findOne({ email });
       //si el usuario no existe envia error
-      if(!user) {
-        next(createError(404));
-      }
+        //console.log(user);
+        if(!user) {
+          next(createError(404));
+        }
       //si el usuario existe, hace el hash del password y lo compara con el de la DB
       //logea el usuario creando un currentUser y devuelve JSON con los datos
       else if (bcrypt.compareSync(password, user.password)) {
+        console.log("hola")
         req.session.currentUser = user;
         //añadimos al currentUser el isShelter para que nos lo indique en el Frontend
         //req.session.currentUser.isShelter = isShelter;
-        return;
+        res.json(user).status(201);
       } else {
         next(createError(401));
       }
