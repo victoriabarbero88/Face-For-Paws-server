@@ -144,6 +144,7 @@ router.post("/profile/edit", (req, res, next) => {
 //POST '/pet/add-pet'
 router.post("/pet/add-pet", (req, res, next) => {
   const { name, photo, location, size, age, gender, species, status, description} = req.body;
+  console.log(req.session.currentUser)
   const user = req.session.currentUser._id;
   Pet.create({
     user,
