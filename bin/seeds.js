@@ -91,13 +91,43 @@ mongoose
   return pr;
 })
 .then(createdUsers => {
+  //console.log(client.organization)
   console.log("Users have been created", createdUsers.length);
-  return client.organization.search({limit:100})
+  return client.animal.search({limit:30})
 })
 .then((response) => {
+  const animals = response.data.animals;
+  const listPets = [];
+    animals.forEach((animal) => {
+      let newPet = new Pet();
+      newPet.name = animal.name;
+      newPet.photo = animal.photos[0];
+      newPet.size = animal.size;
+      newPet.age = animal.age;
+      newPet.gender = animal.gender;
+      newPet.species = animal.species;
+     
+      listPets.push(newPet);
+      //console.log(listPets)
+    })
+    return Pet.create(listPets);
+})
+.then((createdPets) => {
+  console.log(createdPets.length, " pets have been created");
+  //console.log(client)
+  // createdPets.forEach((pet) => {
+  //   let oneShelter = client.organization.search({limit:50, organization_id: Pet.shelterId});
+  //   console.log(oneShelter)
+  //   listShelters.push(oneShelter);
+  return client.organization.search({limit:10})
+
+})
+
+.then((response) => {
+  //console.log('es esto!', response)
   const organizations = response.data.organizations;
-  
   const listShelters = [];
+
     organizations.forEach( (organization) => {
       let newShelter = new Shelter();
       newShelter.name = organization.name;
@@ -114,28 +144,6 @@ mongoose
 })
 .then((createdShelters) => {
   console.log(createdShelters.length + " shelters have been created");
-  return client.animal.search({limit:100})
-})
-
-.then((response) => {
-  const animals = response.data.animals;
-  const listPets = [];
-    animals.forEach((animal) => {
-      let newPet = new Pet();
-      newPet.name = animal.name;
-      newPet.photo = animal.photos[0];
-      newPet.size = animal.size;
-      newPet.age = animal.age;
-      newPet.gender = animal.gender;
-      newPet.species = animal.species;
-
-      listPets.push(newPet);
-      //console.log(listPets)
-    })
-    return Pet.create(listPets);
-})
-.then((createdPets) => {
-  console.log(createdPets.length + " pets have been created");
 })
 
 .then(() => {

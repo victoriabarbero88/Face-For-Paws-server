@@ -11,6 +11,7 @@ const petSchema = new Schema({
   species: {type: String},
   description: {type: String},
   status: {type: String, enum: ["Adoptable", "Adopted", "Foster"]},
+  shelterId: {type: String},
   shelter: {type: mongoose.Types.ObjectId, ref:"Shelter"},
   user: {type: mongoose.Types.ObjectId, ref:"User"},
 }, {
