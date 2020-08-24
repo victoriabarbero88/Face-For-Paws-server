@@ -26,7 +26,7 @@ router.post(
   async (req, res, next) => {
     //recogemos los datos del body
     const{ name, email, password, isShelter } = req.body;
-
+    console.log(isShelter)
     let model = isShelter ? Shelter : User;
     
     try {
@@ -73,7 +73,6 @@ router.post(
 
     //creamos la variable model para poder hablitar la opción de usar un modelo o el otro
     let model = isShelter ? Shelter : User;
-    //console.log(model)
     //Miramos si en el body isShelter es true y pasamos el modelo de Shelter sino pasamos el módelo de User
 
     try {
@@ -87,7 +86,7 @@ router.post(
       //si el usuario existe, hace el hash del password y lo compara con el de la DB
       //logea el usuario creando un currentUser y devuelve JSON con los datos
       else if (bcrypt.compareSync(password, user.password)) {
-        console.log("hola")
+        
         req.session.currentUser = user;
         //añadimos al currentUser el isShelter para que nos lo indique en el Frontend
         //req.session.currentUser.isShelter = isShelter;

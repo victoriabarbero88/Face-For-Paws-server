@@ -36,6 +36,7 @@ router.get('/feed/:id', (req, res, next) => {
 router.post("/feed/add-feed", (req, res, next) => {
   const { title, name, photo, description, isShelter } = req.body;
   let model = isShelter ? Shelter : User;
+  console.log(req.body)
   const user = req.session.currentUser._id;
   Feed.create({
     user,
@@ -137,7 +138,7 @@ router.get('/profile', (req, res, next) => {
   const { isShelter } = req.body;
   let model = isShelter ? Shelter : User;
   const user = req.session.currentUser._id;
-  model.findById(user)
+  model.findById(user, {new: true})
     .then(theModel => {
       res.json(theModel).status(200);
     })
