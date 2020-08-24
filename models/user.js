@@ -6,10 +6,15 @@ const userSchema = new Schema(
     name: { type: String },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    photo: { type: String, default: "" },
+    photo: { type: String, default: "https://i.pinimg.com/564x/2c/2e/89/2c2e89b96800ff51b1187fa7409d5bd3.jpg" },
     location: {
       type: String,
-      enum: ["Barcelona", "Girona", "Tarragona", "Lleida"],
+      enum: [
+        "Barcelona",
+         "Girona",
+         "Tarragona", 
+         "Lleida"
+      ],
     },
     description: { type: String },
     myPets: [

@@ -5,7 +5,7 @@ const shelterSchema = new Schema({
   name: {type: String},
   email: {type: String},
   password: {type: String},
-  photo: {type: Array, default:""},
+  photo: {type: Array, default:"https://i.pinimg.com/564x/2c/2e/89/2c2e89b96800ff51b1187fa7409d5bd3.jpg"},
   location: {type: String},
   phone: {type: String},
   website: {type: String},

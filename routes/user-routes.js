@@ -24,7 +24,7 @@ router.get("/feed", (req, res, next) => {
 router.get('/feed/:id', (req, res, next) => {
   Feed.findById(req.params.id)
     .then(theFeed => {
-      res.json(theFeed).status(200);
+      res.status(200).json(theFeed);
     })
     .catch(err => {
       res.json(err).status(500);;
@@ -57,6 +57,7 @@ router.post("/feed/add-feed", (req, res, next) => {
 
 //GET '/pet' all Pets
 router.get("/pet", (req, res, next) => {
+  
   Pet.find()
     .then(allThePets => {
       res.json(allThePets).status(200);
@@ -66,12 +67,36 @@ router.get("/pet", (req, res, next) => {
     })
 });
 
+//GET '/shelter' all Shelters
+router.get("/shelter", (req, res, next) => {
+  
+  Shelter.find()
+    .then(allTheShelters => {
+      res.json(allTheShelters).status(200);
+    })
+    .catch(err => {
+      res.json(err).status(500);
+    })
+});
+
+//GET '/user' all Users
+router.get("/user", (req, res, next) => {
+  
+  User.find()
+    .then(allTheUsers => {
+      res.json(allTheUsers).status(200);
+    })
+    .catch(err => {
+      res.json(err).status(500);
+    })
+});
+
 //GET '/pet/:id'
 router.get('/pet/:id', (req, res, next) => {
-
+  //console.log(req.params.id);
   Pet.findById(req.params.id)
     .then(thePet => {
-      res.json(thePet).status(200);
+      res.status(200).json(thePet);
     })
     .catch(err => {
       res.json(err).status(500);
@@ -84,7 +109,7 @@ router.get('/shelter/:id', (req, res, next) => {
 
   Shelter.findById(req.params.id)
     .then(theShelter => {
-      res.json(theShelter).status(200);
+      res.status(200).json(theShelter);
     })
     .catch(err => {
       res.json(err).status(500);
@@ -99,7 +124,7 @@ router.get('/user/:id', (req, res, next) => {
 
   User.findById(req.params.id)
     .then(theUser => {
-      res.json(theUser).status(200);
+      res.status(200).json(theUser);
     })
     .catch(err => {
       res.json(err).status(500);
@@ -176,7 +201,7 @@ router.post("/pet/edit-pet/:id", (req, res, next) => {
 
   Pet.findByIdAndUpdate(req.params.id, {name, location, phone, website, photo, description }, {new: true})
     .then((response) => {
-        res.json(response).status(200);
+        res.status(200).json(response);
     })
   
   .catch(err => {
@@ -190,7 +215,7 @@ router.delete("/pet/delete/:id", (req, res, next) => {
 
   Pet.findByIdAndDelete(req.params.id)
     .then((response) => {
-      res.json(response).status(200);
+      res.status(200).json(response);
     })
 
     .catch(err => {
