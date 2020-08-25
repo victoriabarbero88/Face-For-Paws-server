@@ -25,7 +25,7 @@ mongoose
 
 // EXPRESS SERVER INSTANCE
 const app = express();
-
+app.use(cors({origin: true, credentials: true}))
 // CORS MIDDLEWARE SETUP
 // app.use(
 //   cors({
@@ -34,16 +34,16 @@ const app = express();
 //   })
 // );
 
-app.use((req, res, next) => {
-  //res.setHeader("Access-Control-Allow-Origin", "*"); 
-  res.setHeader('Access-Control-Allow-Origin', 'https://face-for-paws.web.app:443');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, PUT, POST, OPTIONS, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  res.setHeader('Access-Control-Allow-Credentials', "true");
-	res.setHeader("Access-Control-Max-Age", "1800");
-	res.setHeader("Access-Control-Allow-Headers", "content-type");
-  next();
-});
+// app.use((req, res, next) => {
+//   //res.setHeader("Access-Control-Allow-Origin", "*"); 
+//   res.setHeader('Access-Control-Allow-Origin', 'https://face-for-paws.web.app:443');
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, PUT, POST, OPTIONS, DELETE');
+//   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+//   res.setHeader('Access-Control-Allow-Credentials', "true");
+// 	res.setHeader("Access-Control-Max-Age", "1800");
+// 	res.setHeader("Access-Control-Allow-Headers", "content-type");
+//   next();
+// });
 
 // SESSION MIDDLEWARE
 app.use(
