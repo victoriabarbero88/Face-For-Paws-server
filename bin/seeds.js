@@ -118,11 +118,6 @@ mongoose
 })
 .then((createdPets) => {
   console.log(createdPets.length, " pets have been created");
-  //console.log(client)
-  // createdPets.forEach((pet) => {
-  //   let oneShelter = client.organization.search({limit:50, organization_id: Pet.shelterId});
-  //   console.log(oneShelter)
-  //   listShelters.push(oneShelter);
   return client.organization.search({limit:10})
 
 })
