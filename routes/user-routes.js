@@ -6,6 +6,7 @@ const User = require("../models/user");
 const Shelter = require("../models/shelter");
 const Pet = require("../models/pet");
 const Feed = require("../models/feed");
+const { isLoggedIn } = require("../helpers/middlewares");
 
 
 
@@ -84,6 +85,7 @@ router.get("/shelter", (req, res, next) => {
 router.get("/user", (req, res, next) => {
   
   User.find()
+
     .then(allTheUsers => {
       res.json(allTheUsers).status(200);
     })
@@ -134,18 +136,33 @@ router.get('/user/:id', (req, res, next) => {
 )
 
 //GET '/profile'
-router.get('/profile', (req, res, next) => {
-  const { isShelter } = req.body;
-  let model = isShelter ? Shelter : User;
+router.get('/profile', isLoggedIn(), (req, res, next) => {
+  const { isShelter } = req.session.currentUser;
   const user = req.session.currentUser._id;
-  model.findById(user, {new: true})
-    .then(theModel => {
-      res.json(theModel).status(200);
-    })
-    .catch(err => {
-      res.json(err).status(500);
-    })
-})
+  //console.log(typeof user)
+  
+  if (isShelter) {
+    console.log(isShelter)
+    Shelter.findById(user)
+
+      .populate("pets")
+      .then(theShelter => {
+        console.log('the shelter', theShelter)
+        res.status(200).json(theShelter);
+      })
+      .catch(err => {
+        res.status(500).json(err);
+      })    
+  } else {
+    User.findById(user)
+      .then(theUser => {
+        //console.log(theUser)
+        res.status(200).json(theUser);
+      })
+      .catch(err => {
+        res.status(500).json(err);
+      })    
+}})
 
 
 //POST '/profile/edit/'
@@ -172,7 +189,7 @@ router.post("/pet/add-pet", (req, res, next) => {
   const { name, photo, location, size, age, gender, species, status, description} = req.body;
   console.log(req.session.currentUser)
   const user = req.session.currentUser._id;
-  Pet.create({
+  Pet.create({ 
     user,
     location,
     name,

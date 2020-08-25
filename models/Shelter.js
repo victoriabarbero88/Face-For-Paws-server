@@ -10,6 +10,7 @@ const shelterSchema = new Schema({
   phone: {type: String},
   website: {type: String},
   description: {type: String},
+  isShelter: {type: Boolean, default: true},
   petId: {type: String},
   pets: [{type: mongoose.Types.ObjectId, ref:"Pet"}],
   user: [{type: mongoose.Types.ObjectId, ref:"User"}],
