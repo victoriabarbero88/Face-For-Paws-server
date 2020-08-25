@@ -30,7 +30,7 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: [process.env.PUBLIC_DOMAIN, 'https://facesforpawstoshow.web.app']
+    origin: [process.env.PUBLIC_DOMAIN, 'https://facesforpawstoshow.web.app', 'https://faceforpaws.herokuapp.com/auth/me']
   })
 );
 
