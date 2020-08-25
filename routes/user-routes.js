@@ -3,9 +3,9 @@ const mongoose = require("mongoose");
 const router = express.Router();
 
 const User = require("../models/user");
-const Shelter = require("../models/shelter");
-const Pet = require("../models/pet");
-const Feed = require("../models/feed");
+const Shelter = require("../models/Shelter");
+const Pet = require("../models/Pet");
+const Feed = require("../models/Feed");
 const { isLoggedIn } = require("../helpers/middlewares");
 
 
