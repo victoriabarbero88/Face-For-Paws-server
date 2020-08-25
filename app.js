@@ -30,13 +30,13 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: [process.env.PUBLIC_DOMAIN, 'https://facesforpawstoshow.web.app', 'https://faceforpaws.herokuapp.com/auth/me']
+    origin: [process.env.PUBLIC_DOMAIN, 'https://test-project-e924b.web.app']
   })
 );
 
 // app.use((req, res, next) => {
 //   //res.setHeader("Access-Control-Allow-Origin", "*"); 
-//   res.setHeader('Access-Control-Allow-Origin', 'https://face-for-paws.web.app:443');
+//   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
 //   res.setHeader('Access-Control-Allow-Methods', 'GET, PUT, POST, OPTIONS, DELETE');
 //   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 //   res.setHeader('Access-Control-Allow-Credentials', "true");
