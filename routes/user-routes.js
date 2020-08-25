@@ -142,12 +142,12 @@ router.get('/profile', isLoggedIn(), (req, res, next) => {
   //console.log(typeof user)
   
   if (isShelter) {
-    console.log(isShelter)
+    //console.log(isShelter)
     Shelter.findById(user)
 
       .populate("pets")
       .then(theShelter => {
-        console.log('the shelter', theShelter)
+        //console.log('the shelter', theShelter)
         res.status(200).json(theShelter);
       })
       .catch(err => {
@@ -215,9 +215,9 @@ router.post("/pet/add-pet", (req, res, next) => {
 
 //POST '/pet/edit-pet/:id'
 router.post("/pet/edit-pet/:id", (req, res, next) => {
-  const { name, photo, location, size, age, gender, species, status, description}  = req.body;
-
-  Pet.findByIdAndUpdate(req.params.id, {name, location, phone, website, photo, description }, {new: true})
+  //const { name, photo, location, size, age, gender, species, status, description}  = req.body;
+  console.log(req.params)
+  Pet.findByIdAndUpdate(req.params.id, req.body, {new: true})
     .then((response) => {
         res.status(200).json(response);
     })
