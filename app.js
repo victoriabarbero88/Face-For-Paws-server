@@ -25,14 +25,14 @@ mongoose
 
 // EXPRESS SERVER INSTANCE
 const app = express();
-app.use(cors({origin: true, credentials: true}))
-// CORS MIDDLEWARE SETUP
-// app.use(
-//   cors({
-//     credentials: true,
-//     origin: [process.env.PUBLIC_DOMAIN, 'https://face-for-paws.web.app'], 
-//   })
-// );
+//app.use(cors({origin: true, credentials: true}))
+//CORS MIDDLEWARE SETUP
+app.use(
+  cors({
+    credentials: true,
+    origin: [process.env.PUBLIC_DOMAIN, 'https://face-for-paws.web.app'], 
+  })
+);
 
 // app.use((req, res, next) => {
 //   //res.setHeader("Access-Control-Allow-Origin", "*"); 
