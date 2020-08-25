@@ -4,7 +4,7 @@ const createError = require("http-errors");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const User = require("../models/user");
-const Shelter = require("../models/shelter");
+const Shelter = require("../models/Shelter");
 
 //HELPER FUNCTIONS
 //traemos las funciones helpers
