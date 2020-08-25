@@ -129,7 +129,7 @@ router.get("/private", isLoggedIn(), (req, res, next) => {
 //Comprueba si hay currentUser usando helper
 router.get("/me", isLoggedIn(), ( req, res, next ) => {
   //si hay curretUser previene que el password sea enviado sin codificar y devuelve ub json con el currentUser
-  //git herreq.session.currentUser.password = "*";
+  req.session.currentUser.password = "*";
   res.json(req.session.currentUser);
 });
 
