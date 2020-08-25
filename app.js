@@ -30,7 +30,7 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: [process.env.PUBLIC_DOMAIN, "https://face-for-paws.web.app"], 
+    origin: [process.env.PUBLIC_DOMAIN, 'https://face-for-paws.web.app'], 
   })
 );
 app.use((req, res, next) => {
