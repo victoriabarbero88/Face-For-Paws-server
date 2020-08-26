@@ -30,7 +30,7 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: [process.env.PUBLIC_DOMAIN, 'http://localhost:3000']
+    origin: [process.env.PUBLIC_DOMAIN]
   })
 );
 
@@ -50,13 +50,13 @@ app.use(
   session({
     store: new MongoStore({
       mongooseConnection: mongoose.connection,
-      ttl: 24 * 60 * 60, // 1 day
+      //ttl: 24 * 60 * 60, // 1 day
     }),
     secret: process.env.SECRET_SESSION,
     resave: true,
     saveUninitialized: true,
     cookie: {
-      maxAge: 24 * 60 * 60 * 1000,
+      maxAge: 60 * 60 * 1000,
     },
   })
 );
@@ -81,7 +81,6 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   // always log the error
   console.error("ERROR", req.method, req.path, err);
-
   // only render if the error ocurred before sending the response
   if (!res.headersSent) {
     const statusError = err.status || "500";

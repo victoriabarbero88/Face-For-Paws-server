@@ -21,17 +21,7 @@ router.get("/feed", (req, res, next) => {
     })
 });
 
-//GET '/feed/:id'
-router.get('/feed/:id', (req, res, next) => {
-  Feed.findById(req.params.id)
-    .then(theFeed => {
-      res.status(200).json(theFeed);
-    })
-    .catch(err => {
-      res.json(err).status(500);;
-    })
-}
-)
+
 
 //POST '/feed/add-feed'
 router.post("/feed/add-feed", (req, res, next) => {
@@ -56,6 +46,18 @@ router.post("/feed/add-feed", (req, res, next) => {
     res.json(err).status(500);;
   });
 });
+
+//GET '/feed/:id'
+router.get('/feed/:id', (req, res, next) => {
+  Feed.findById(req.params.id)
+    .then(theFeed => {
+      res.status(200).json(theFeed);
+    })
+    .catch(err => {
+      res.json(err).status(500);;
+    })
+}
+)
 
 //GET '/pet' all Pets
 router.get("/pet", (req, res, next) => {
@@ -120,7 +122,6 @@ router.get('/shelter/:id', (req, res, next) => {
   }
 )
 
-//GET '/search'
 
 //GET '/user/:id'
 router.get('/user/:id', (req, res, next) => {
@@ -214,7 +215,7 @@ router.post("/pet/add-pet", (req, res, next) => {
 
 
 //POST '/pet/edit-pet/:id'
-router.post("/pet/edit-pet/:id", (req, res, next) => {
+router.put("/pet/edit-pet/:id", (req, res, next) => {
   //const { name, photo, location, size, age, gender, species, status, description}  = req.body;
   console.log(req.params)
   Pet.findByIdAndUpdate(req.params.id, req.body, {new: true})
