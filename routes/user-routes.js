@@ -38,9 +38,10 @@ router.post("/feed/add-feed", (req, res, next) => {
   })
   .then(response => {
     console.log(response)
-    console.log(shelter)
-    if (isShelter) {
-      Shelter.findByIdAndUpdate(user, {$push: {feed: response}}, {new: true})
+    console.log('holi', req.session.currentUser.isShelter)
+    if (req.session.currentUser.isShelter) {
+
+      Shelter.findByIdAndUpdate(user, {$push: {feed: response._id}}, {new: true})
         .then((response) => {
           res.json(response).status(200);
         })
@@ -48,7 +49,7 @@ router.post("/feed/add-feed", (req, res, next) => {
           res.json(err).status(500);;
         })
     } else {
-      User.findByIdAndUpdate(user, {$push: {feed: response}}, {new: true})
+      User.findByIdAndUpdate(user, {$push: {feed: response._id}}, {new: true})
         .then((response) => {
           res.json(response).status(200);
         })

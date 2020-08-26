@@ -12,7 +12,7 @@ const cors = require("cors");
 
 const auth = require("./routes/auth");
 const userRoutes =  require("./routes/user-routes");
-
+const userUpload =  require("./routes/file-upload-routes");
 // MONGOOSE CONNECTION
 mongoose
   .connect(process.env.MONGODB_URI, {
@@ -73,6 +73,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // ROUTER MIDDLEWARE
 app.use("/auth", auth);
 app.use("/user-routes", userRoutes);
+app.use("/", userUpload);
 
 // ROUTE FOR SERVING REACT APP (index.html)
 app.use((req, res) => {
