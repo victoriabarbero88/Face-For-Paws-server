@@ -30,7 +30,7 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: [process.env.PUBLIC_DOMAIN, 'https://test-project-e924b.web.app']
+    origin: [process.env.PUBLIC_DOMAIN, 'http://localhost:3000']
   })
 );
 
