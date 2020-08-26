@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const feedSchema = new Schema({
+const messageSchema = new Schema({
   user: {type: mongoose.Types.ObjectId, ref:"User"},
   shelter: {type: mongoose.Types.ObjectId, ref:"Shelter"},
   title: {type: String},
@@ -15,6 +15,6 @@ const feedSchema = new Schema({
   },
 });
 
-const Feed = mongoose.model('Feed', feedSchema);
+const Message = mongoose.model('Message', messageSchema);
 
-module.exports = Feed;
+module.exports = Message;

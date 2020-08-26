@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const petSchema = new Schema({
   name: {type: String},
-  photo: [{type: Object}],
+  photo: [{type: Object, default: "https://i.pinimg.com/564x/2c/2e/89/2c2e89b96800ff51b1187fa7409d5bd3.jpg"}],
   location: {type: String, enum:["Barcelona", "Girona", "Tarragona", "Lleida"]},
   size: {type: String},
   age: {type: String},

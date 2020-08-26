@@ -6,6 +6,7 @@ const User = require("../models/user");
 const Shelter = require("../models/Shelter");
 const Pet = require("../models/Pet");
 const Feed = require("../models/Feed");
+const Message = require("../models/Message")
 const dbName = "faceForPaws";
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;
@@ -137,6 +138,7 @@ mongoose
       newShelter.website = organization.website;
       newShelter.petRelationId = organization.id;
       newShelter.description;
+      newShelter.message;
 
       listShelters.push(newShelter);
       //console.log(listShelters);

@@ -14,7 +14,7 @@ const shelterSchema = new Schema({
   petId: {type: String},
   pets: [{type: mongoose.Types.ObjectId, ref:"Pet"}],
   user: [{type: mongoose.Types.ObjectId, ref:"User"}],
-  message: [{}],
+  message: [{type: mongoose.Types.ObjectId, ref:"Message"}],
   feed: [{type: mongoose.Types.ObjectId, ref:"Feed"}],
 }, {
   timestamps: {

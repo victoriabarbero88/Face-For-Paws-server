@@ -38,7 +38,7 @@ const userSchema = new Schema(
     ],
     pet: [{ type: mongoose.Types.ObjectId, ref: "Pet" }],
     myFavPets: [{ type: mongoose.Types.ObjectId, ref: "Pet" }],
-    message: [{}],
+    message: [{type: mongoose.Types.ObjectId, ref:"Message"}],
     feed: [{ type: mongoose.Types.ObjectId, ref: "Feed" }],
   },
   {

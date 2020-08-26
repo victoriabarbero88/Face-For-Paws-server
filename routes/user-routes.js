@@ -6,6 +6,7 @@ const User = require("../models/user");
 const Shelter = require("../models/Shelter");
 const Pet = require("../models/Pet");
 const Feed = require("../models/Feed");
+const Message = require("../models/Message");
 const { isLoggedIn } = require("../helpers/middlewares");
 
 
@@ -15,6 +16,17 @@ router.get("/feed", (req, res, next) => {
   Feed.find()
     .then(allTheFeeds => {
       res.json(allTheFeeds).status(200);
+    })
+    .catch(err => {
+      res.json(err).status(500);
+    })
+});
+
+//GET '/message'
+router.get("/message", (req, res, next) => {
+  Message.find()
+    .then(allTheMessages => {
+      res.json(allTheMessages).status(200);
     })
     .catch(err => {
       res.json(err).status(500);
@@ -37,8 +49,7 @@ router.post("/feed/add-feed", (req, res, next) => {
     description,
   })
   .then(response => {
-    console.log(response)
-    console.log('holi', req.session.currentUser.isShelter)
+    
     if (req.session.currentUser.isShelter) {
 
       Shelter.findByIdAndUpdate(user, {$push: {feed: response._id}}, {new: true})
@@ -61,12 +72,63 @@ router.post("/feed/add-feed", (req, res, next) => {
     res.json(err).status(500);;
   })
 })
+//POST '/message/add-message'
+router.post("/message/add-message", (req, res, next) => {
+  const { title, name, photo, description, isShelter } = req.body;
+  //let model = isShelter ? Shelter : User;
+  console.log(req.body)
+  const user = req.session.currentUser._id;
+  Message.create({
+    user,
+    title,
+    name,
+    photo,
+    description,
+  })
+  .then(response => {
+    
+    if (req.session.currentUser.isShelter) {
+
+      Shelter.findByIdAndUpdate(user, {$push: {message: response._id}}, {new: true})
+        .then((response) => {
+          res.json(response).status(200);
+        })
+        .catch(err => {
+          res.json(err).status(500);;
+        })
+    } else {
+      User.findByIdAndUpdate(user, {$push: {message: response._id}}, {new: true})
+        .then((response) => {
+          res.json(response).status(200);
+        })
+        .catch(err => {
+          res.json(err).status(500);;
+        }) 
+  }})
+  .catch(err => {
+    res.json(err).status(500);;
+  })
+})
+
+
 
 //GET '/feed/:id'
 router.get('/feed/:id', (req, res, next) => {
   Feed.findById(req.params.id)
     .then(theFeed => {
       res.status(200).json(theFeed);
+    })
+    .catch(err => {
+      res.json(err).status(500);;
+    })
+}
+)
+
+//GET '/message/:id'
+router.get('/message/:id', (req, res, next) => {
+  Message.findById(req.params.id)
+    .then(theMessage => {
+      res.status(200).json(theMessage);
     })
     .catch(err => {
       res.json(err).status(500);;
@@ -260,7 +322,7 @@ router.put("/user/edit-user/:id", (req, res, next) => {
 //POST '/shelter/edit-shelter/:id'
 router.put("/shelter/edit-shelter/:id", (req, res, next) => {
   //const { name, photo, location, size, age, gender, species, status, description}  = req.body;
-  console.log(req.params)
+  //console.log(req.params)
   Shelter.findByIdAndUpdate(req.params.id, req.body, {new: true})
     .then((response) => {
         res.status(200).json(response);
@@ -273,8 +335,7 @@ router.put("/shelter/edit-shelter/:id", (req, res, next) => {
 
 //POST '/feed/edit-feed/:id'
 router.put("/feed/edit-feed/:id", (req, res, next) => {
-  //const { name, photo, location, size, age, gender, species, status, description}  = req.body;
-  console.log(req.params)
+
   Feed.findByIdAndUpdate(req.params.id, req.body, {new: true})
     .then((response) => {
         res.status(200).json(response);
@@ -285,6 +346,18 @@ router.put("/feed/edit-feed/:id", (req, res, next) => {
   });
 });
 
+//POST '/message/edit-message/:id'
+router.put("/message/edit-message/:id", (req, res, next) => {
+
+  Message.findByIdAndUpdate(req.params.id, req.body, {new: true})
+    .then((response) => {
+        res.status(200).json(response);
+    })
+  
+  .catch(err => {
+    res.json(err).status(500);
+  });
+});
 
 
 
@@ -305,6 +378,19 @@ router.delete("/pet/delete/:id", (req, res, next) => {
 router.delete("/feed/delete/:id", (req, res, next) => {
 
   Feed.findByIdAndDelete(req.params.id)
+    .then((response) => {
+      res.status(200).json(response);
+    })
+
+    .catch(err => {
+    res.json(err).status(500);
+  });
+})
+
+//DELETE '/message/delete/:id'
+router.delete("/message/delete/:id", (req, res, next) => {
+
+  Message.findByIdAndDelete(req.params.id)
     .then((response) => {
       res.status(200).json(response);
     })
