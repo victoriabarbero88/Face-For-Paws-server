@@ -111,7 +111,16 @@ router.post(
 //     .send();
 //   return;
 // });
-router.post('/logout', isLoggedIn(), (req, res, next) => {
+// router.post('/logout', isLoggedIn(), (req, res, next) => {
+//   console.log(req.session.currentUser)
+//   const { email } = req.session.currentUser;
+//   req.session.destroy();
+//   res
+//     .status(200) 
+//     .json({ "message": `User '${email}' logged out - session destroyed` });
+//   return;
+// });
+router.post('/logout', (req, res, next) => {
   console.log(req.session.currentUser)
   const { email } = req.session.currentUser;
   req.session.destroy();
