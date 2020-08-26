@@ -300,6 +300,19 @@ router.delete("/pet/delete/:id", (req, res, next) => {
   });
 })
 
+//DELETE '/feed/delete/:id'
+router.delete("/feed/delete/:id", (req, res, next) => {
+
+  Feed.findByIdAndDelete(req.params.id)
+    .then((response) => {
+      res.status(200).json(response);
+    })
+
+    .catch(err => {
+    res.json(err).status(500);
+  });
+})
+
 
 
 module.exports = router;
