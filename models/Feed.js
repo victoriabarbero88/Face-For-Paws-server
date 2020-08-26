@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const feedSchema = new Schema({
-  user: [{type: mongoose.Types.ObjectId, ref:"User"}],
-  shelter: [{type: mongoose.Types.ObjectId, ref:"Shelter"}],
+  user: {type: mongoose.Types.ObjectId, ref:"User"},
+  shelter: {type: mongoose.Types.ObjectId, ref:"Shelter"},
   title: {type: String},
   name: {type: String},
   photo: {type: String, default:""},

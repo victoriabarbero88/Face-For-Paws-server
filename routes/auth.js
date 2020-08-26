@@ -19,10 +19,12 @@ router.post(
   isNotLoggedIn(),
   validationLoggin(),
   async (req, res, next) => {
-    const { email, password, isShleter } = req.body;
-    let model = isShleter ? Shelter : User;
+    const { name, email, password, isShelter } = req.body;
+    let model = isShelter ? Shelter : User;
+    console.log(model);
     try {
       const user = await model.findOne({ email });
+      console.log(user);
       if (!user) {
         next(createError(404));
       } else if (bcrypt.compareSync(password, user.password)) {
@@ -49,7 +51,7 @@ router.post(
     const { name, email, password, isShelter } = req.body;
     console.log(isShelter);
     let model = isShelter ? Shelter : User;
-
+    console.log(model)
     try {
       const emailExists = await model.findOne({ email }, "email");
 

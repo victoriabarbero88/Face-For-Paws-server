@@ -26,7 +26,7 @@ router.get("/feed", (req, res, next) => {
 //POST '/feed/add-feed'
 router.post("/feed/add-feed", (req, res, next) => {
   const { title, name, photo, description, isShelter } = req.body;
-  let model = isShelter ? Shelter : User;
+  //let model = isShelter ? Shelter : User;
   console.log(req.body)
   const user = req.session.currentUser._id;
   Feed.create({
@@ -37,15 +37,29 @@ router.post("/feed/add-feed", (req, res, next) => {
     description,
   })
   .then(response => {
-    model.findByIdAndUpdate(user, {$push: {feed: response}}, {new: true})
-      .then((response) => {
-        res.json(response).status(200);
-      })
-  })
+    console.log(response)
+    console.log(shelter)
+    if (isShelter) {
+      Shelter.findByIdAndUpdate(user, {$push: {feed: response}}, {new: true})
+        .then((response) => {
+          res.json(response).status(200);
+        })
+        .catch(err => {
+          res.json(err).status(500);;
+        })
+    } else {
+      User.findByIdAndUpdate(user, {$push: {feed: response}}, {new: true})
+        .then((response) => {
+          res.json(response).status(200);
+        })
+        .catch(err => {
+          res.json(err).status(500);;
+        }) 
+  }})
   .catch(err => {
     res.json(err).status(500);;
-  });
-});
+  })
+})
 
 //GET '/feed/:id'
 router.get('/feed/:id', (req, res, next) => {
@@ -145,7 +159,7 @@ router.get('/profile', isLoggedIn(), (req, res, next) => {
   if (isShelter) {
     //console.log(isShelter)
     Shelter.findById(user)
-
+      .populate("feed")
       .populate("pets")
       .then(theShelter => {
         //console.log('the shelter', theShelter)
@@ -167,7 +181,7 @@ router.get('/profile', isLoggedIn(), (req, res, next) => {
 
 
 //POST '/profile/edit/'
-router.post("/profile/edit", (req, res, next) => {
+router.post("/profile/edit-profile", (req, res, next) => {
   const { name, location, phone, website, photo, description, isShelter } = req.body;
   let model = isShelter ? Shelter : User;
   const user = req.session.currentUser._id;
@@ -227,6 +241,50 @@ router.put("/pet/edit-pet/:id", (req, res, next) => {
     res.json(err).status(500);
   });
 });
+
+//POST '/user/edit-user/:id'
+router.put("/user/edit-user/:id", (req, res, next) => {
+  //const { name, photo, location, size, age, gender, species, status, description}  = req.body;
+  console.log(req.params)
+  User.findByIdAndUpdate(req.params.id, req.body, {new: true})
+    .then((response) => {
+        res.status(200).json(response);
+    })
+  
+  .catch(err => {
+    res.json(err).status(500);
+  });
+});
+
+//POST '/shelter/edit-shelter/:id'
+router.put("/shelter/edit-shelter/:id", (req, res, next) => {
+  //const { name, photo, location, size, age, gender, species, status, description}  = req.body;
+  console.log(req.params)
+  Shelter.findByIdAndUpdate(req.params.id, req.body, {new: true})
+    .then((response) => {
+        res.status(200).json(response);
+    })
+  
+  .catch(err => {
+    res.json(err).status(500);
+  });
+});
+
+//POST '/feed/edit-feed/:id'
+router.put("/feed/edit-feed/:id", (req, res, next) => {
+  //const { name, photo, location, size, age, gender, species, status, description}  = req.body;
+  console.log(req.params)
+  Feed.findByIdAndUpdate(req.params.id, req.body, {new: true})
+    .then((response) => {
+        res.status(200).json(response);
+    })
+  
+  .catch(err => {
+    res.json(err).status(500);
+  });
+});
+
+
 
 
 //DELETE '/pet/delete/:id'
