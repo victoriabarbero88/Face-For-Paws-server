@@ -190,6 +190,7 @@ router.get('/pet/:id', (req, res, next) => {
 router.get('/shelter/:id', (req, res, next) => {
 
   Shelter.findById(req.params.id)
+    .populate("pets")
     .then(theShelter => {
       res.status(200).json(theShelter);
     })
@@ -233,6 +234,7 @@ router.get('/profile', isLoggedIn(), (req, res, next) => {
       })    
   } else {
     User.findById(user)
+      .populate("feed")
       .then(theUser => {
         //console.log(theUser)
         res.status(200).json(theUser);
@@ -265,7 +267,7 @@ router.post("/profile/edit-profile", (req, res, next) => {
 //POST '/pet/add-pet'
 router.post("/pet/add-pet", (req, res, next) => {
   const { name, photo, location, size, age, gender, species, status, description} = req.body;
-  console.log(req.session.currentUser)
+  console.log('esteeee', req.body)
   const user = req.session.currentUser._id;
   Pet.create({ 
     user,
