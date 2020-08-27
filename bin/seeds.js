@@ -92,7 +92,7 @@ mongoose
   return pr;
 })
 .then(createdUsers => {
-  //console.log(client.organization)
+
   console.log("Users have been created", createdUsers.length);
   return client.animal.search({limit:30})
 })
@@ -113,7 +113,7 @@ mongoose
       
      
       listPets.push(newPet);
-      //console.log(listPets)
+    
     })
     return Pet.create(listPets);
 })
@@ -124,7 +124,7 @@ mongoose
 })
 
 .then((response) => {
-  //console.log('es esto!', response)
+ 
   const organizations = response.data.organizations;
   const listShelters = [];
 
@@ -141,7 +141,7 @@ mongoose
       newShelter.message;
 
       listShelters.push(newShelter);
-      //console.log(listShelters);
+    
   })
   return Shelter.create(listShelters)
 })

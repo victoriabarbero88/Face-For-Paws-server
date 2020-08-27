@@ -21,7 +21,6 @@ router.post(
   async (req, res, next) => {
     const { name, email, password, isShelter } = req.body;
     let model = isShelter ? Shelter : User;
-    console.log(model);
     try {
       const user = await model.findOne({ email });
       console.log(user);
@@ -49,9 +48,7 @@ router.post(
 
   async (req, res, next) => {
     const { name, email, password, isShelter } = req.body;
-    console.log(isShelter);
     let model = isShelter ? Shelter : User;
-    console.log(model)
     try {
       const emailExists = await model.findOne({ email }, "email");
 

@@ -268,9 +268,9 @@ router.post("/profile/edit-profile", (req, res, next) => {
 router.post("/pet/add-pet", (req, res, next) => {
   const { name, photo, location, size, age, gender, species, status, description} = req.body;
   console.log('esteeee', req.body)
-  const user = req.session.currentUser._id;
+  const id = req.session.currentUser._id;
   Pet.create({ 
-    user,
+    shelter:id,
     location,
     name,
     photo,
@@ -282,7 +282,7 @@ router.post("/pet/add-pet", (req, res, next) => {
     description,
   })
   .then(response => {
-    Shelter.findByIdAndUpdate(user, {$push: {pets: response}}, {new: true})
+    Shelter.findByIdAndUpdate(id, {$push: {pets: response}}, {new: true})
       .then((response) => {
         res.json(response).status(200);
       })
@@ -296,7 +296,7 @@ router.post("/pet/add-pet", (req, res, next) => {
 //POST '/pet/edit-pet/:id'
 router.put("/pet/edit-pet/:id", (req, res, next) => {
   //const { name, photo, location, size, age, gender, species, status, description}  = req.body;
-  console.log(req.params)
+  console.log(req.body)
   Pet.findByIdAndUpdate(req.params.id, req.body, {new: true})
     .then((response) => {
         res.status(200).json(response);

@@ -24,7 +24,7 @@ const userSchema = new Schema(
         photo: { type: String, default: "" },
       },
     ],
-    state: [
+    status: [
       {
         type: String,
         enum: [
