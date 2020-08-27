@@ -76,7 +76,7 @@ router.post("/feed/add-feed", (req, res, next) => {
 router.post("/message/add-message", (req, res, next) => {
   const { title, name, photo, description, isShelter } = req.body;
   //let model = isShelter ? Shelter : User;
-  console.log(req.body)
+  //console.log(req.body)
   const user = req.session.currentUser._id;
   Message.create({
     user,
